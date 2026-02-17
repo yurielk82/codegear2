@@ -1,6 +1,6 @@
 {
   "name": "codegear2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -11,6 +11,7 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.34.0",
     "lucide-react": "^0.569.0",
     "next": "16.1.6",
     "radix-ui": "^1.4.3",
