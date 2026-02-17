@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
+
+export const metadata: Metadata = {
+  title: "개인정보처리방침",
+  description: "주식회사 코드기어의 개인정보처리방침",
+};
 
 export default function PrivacyPage() {
   return (

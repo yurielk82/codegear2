@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import { Separator } from "@/components/ui/separator";
+
+export const metadata: Metadata = {
+  title: "이용약관",
+  description: "주식회사 코드기어의 이용약관",
+};
 
 export default function TermsPage() {
   return (

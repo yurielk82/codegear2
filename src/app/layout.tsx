@@ -15,8 +15,30 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Code Gear - Connecting Intelligence to Hardware",
-  description: "NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는 하이테크 스타트업",
+  title: {
+    default: "Code Gear - Connecting Intelligence to Hardware",
+    template: "%s | Code Gear",
+  },
+  description: "NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는 하이테크 스타트업 주식회사 코드기어",
+  keywords: ["코드기어", "Code Gear", "NPU", "반도체", "로봇 제어", "AI 가속기", "FPGA", "임베디드", "SoC"],
+  authors: [{ name: "주식회사 코드기어" }],
+  creator: "Code Gear Inc.",
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "Code Gear",
+    title: "Code Gear - Connecting Intelligence to Hardware",
+    description: "NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는 하이테크 스타트업",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Code Gear - Connecting Intelligence to Hardware",
+    description: "NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는 하이테크 스타트업",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
