@@ -1,3 +1,7 @@
+# Code Gear v0.2.0
+
+NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는 하이테크 스타트업 웹사이트.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
