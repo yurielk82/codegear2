@@ -21,7 +21,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { createClient } from "@/lib/supabase/client";
+import { signOut } from "next-auth/react";
 
 const navItems = [
   { name: "대시보드", href: "/admin", icon: LayoutDashboard },
@@ -36,10 +36,8 @@ function isActive(pathname: string, href: string) {
 }
 
 function NavContent({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
-  const handleLogout = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    window.location.href = "/auth";
+  const handleLogout = () => {
+    signOut({ callbackUrl: "/auth" });
   };
 
   return (

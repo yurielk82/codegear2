@@ -41,7 +41,7 @@ export default function AdminNoticeEditPage({
   }
 
   const handleSubmit = (data: NoticeFormData) => {
-    // TODO: Supabase update
+    // TODO: Prisma update
     console.log("Update notice:", id, data);
     window.alert("공고가 수정되었습니다.");
     router.push("/admin/notices");

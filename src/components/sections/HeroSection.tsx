@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-/* ── Hero copy (hardcoded, to be replaced by Supabase later) ── */
+/* ── Hero copy (hardcoded, to be replaced by DB later) ── */
 const hero = {
   mainCopy: "Connecting Intelligence to Hardware",
   subCopy: "지능형 하드웨어의 미래를 설계합니다",

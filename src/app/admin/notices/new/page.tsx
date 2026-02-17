@@ -11,7 +11,7 @@ export default function AdminNoticeNewPage() {
   const router = useRouter();
 
   const handleSubmit = (data: NoticeFormData) => {
-    // TODO: Supabase insert
+    // TODO: Prisma insert
     console.log("Create notice:", data);
     window.alert("공고가 등록되었습니다.");
     router.push("/admin/notices");
