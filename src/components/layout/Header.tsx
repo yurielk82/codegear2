@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -32,48 +33,48 @@ export function Header() {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-200 ${
+    <motion.header
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,backdrop-filter,padding,border-color] duration-300 ${
         scrolled
-          ? "border-b border-border bg-background/95 backdrop-blur-sm shadow-sm"
-          : "border-b border-transparent bg-background"
+          ? "py-3 bg-black/80 backdrop-blur-xl border-b border-white/5"
+          : "py-5 bg-transparent"
       }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto flex h-auto max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-2 cursor-pointer z-10"
           aria-label="Code Gear 홈으로 이동"
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <span className="text-sm font-bold text-primary-foreground">
-              CG
-            </span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 border border-blue-500/30">
+            <span className="text-sm font-bold text-blue-300">CG</span>
           </div>
           <span className="text-lg font-bold tracking-tight text-foreground">
             Code Gear
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex md:items-center md:gap-1">
+        {/* Desktop Navigation — absolutely centered */}
+        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-10">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+              className="cursor-pointer text-base font-medium tracking-wide text-muted-foreground transition-colors duration-200 hover:text-foreground"
             >
               {item.name}
             </Link>
           ))}
         </nav>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-2">
+        {/* Right: ThemeToggle + Mobile hamburger */}
+        <div className="flex items-center gap-3 z-10">
           <ThemeToggle />
 
-          {/* Mobile Hamburger */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger asChild>
               <Button
@@ -89,10 +90,8 @@ export function Header() {
               <SheetHeader>
                 <SheetTitle className="text-left">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
-                      <span className="text-xs font-bold text-primary-foreground">
-                        CG
-                      </span>
+                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/20 border border-blue-500/30">
+                      <span className="text-xs font-bold text-blue-300">CG</span>
                     </div>
                     <span className="text-base font-bold tracking-tight">
                       Code Gear
@@ -106,7 +105,7 @@ export function Header() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="cursor-pointer rounded-md px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground"
+                    className="cursor-pointer rounded-md px-3 py-2.5 text-base font-medium tracking-wide text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground"
                   >
                     {item.name}
                   </Link>
@@ -116,6 +115,6 @@ export function Header() {
           </Sheet>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
