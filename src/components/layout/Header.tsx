@@ -16,10 +16,10 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const navItems = [
   { name: "홈", href: "/" },
-  { name: "기술", href: "#technology" },
-  { name: "공고", href: "#notices" },
-  { name: "회사소개", href: "#about" },
-  { name: "연락처", href: "#contact" },
+  { name: "기술", href: "/#technology" },
+  { name: "공고", href: "/#notices" },
+  { name: "회사소개", href: "/#about" },
+  { name: "연락처", href: "/#contact" },
 ];
 
 export function Header() {
