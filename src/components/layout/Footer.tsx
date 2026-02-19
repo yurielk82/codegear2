@@ -104,12 +104,7 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
                   <span>
                     {c.address}
-                    {company.addressDetail && (
-                      <>
-                        <br />
-                        {company.addressDetail}
-                      </>
-                    )}
+                    {company.addressDetail && ` ${company.addressDetail}`}
                   </span>
                 </li>
               )}

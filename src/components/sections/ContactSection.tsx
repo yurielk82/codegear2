@@ -49,15 +49,7 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
       ? {
           icon: MapPin,
           label: "주소",
-          value: addressDetail ? (
-            <>
-              {address}
-              <br />
-              <span className="text-sm text-muted-foreground">{addressDetail}</span>
-            </>
-          ) : (
-            address
-          ),
+          value: addressDetail ? `${address} ${addressDetail}` : address,
         }
       : null,
     company.phone ? { icon: Phone, label: "전화", value: company.phone } : null,
