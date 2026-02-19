@@ -3,24 +3,14 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { MapPin, Phone, Mail, Map } from "lucide-react";
 
-/* ── Contact info ── */
-const contactItems = [
-  {
-    icon: MapPin,
-    label: "주소",
-    value: "충청남도 천안시 서북구 불당동",
-  },
-  {
-    icon: Phone,
-    label: "전화",
-    value: "041-XXX-XXXX",
-  },
-  {
-    icon: Mail,
-    label: "이메일",
-    value: "contact@codegear.co.kr",
-  },
-];
+export interface CompanySettings {
+  name?: string;
+  nameEn?: string;
+  address?: string;
+  addressDetail?: string;
+  phone?: string;
+  email?: string;
+}
 
 /* ── Framer Motion variants ── */
 const sectionVariants = {
@@ -45,9 +35,15 @@ const fadeOnly: Variants = {
 };
 
 /* ── Main Section ── */
-export function ContactSection() {
+export function ContactSection({ company = {} }: { company?: CompanySettings }) {
   const prefersReduced = useReducedMotion();
   const variant = prefersReduced ? fadeOnly : fadeSlideUp;
+
+  const contactItems = [
+    { icon: MapPin, label: "주소", value: company.address ?? "충청남도 천안시 서북구 불당동" },
+    { icon: Phone, label: "전화", value: company.phone ?? "041-XXX-XXXX" },
+    { icon: Mail, label: "이메일", value: company.email ?? "contact@codegear.co.kr" },
+  ];
 
   return (
     <section id="contact" className="py-20 md:py-28 bg-muted/30">

@@ -2,7 +2,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { TechnologySection, type TechnologyItem } from "@/components/sections/TechnologySection";
 import { NoticeSection, type NoticeItem } from "@/components/sections/NoticeSection";
 import { AboutSection } from "@/components/sections/AboutSection";
-import { ContactSection } from "@/components/sections/ContactSection";
+import { ContactSection, type CompanySettings } from "@/components/sections/ContactSection";
 import { prisma } from "@/lib/prisma";
 
 async function getNotices(): Promise<NoticeItem[]> {
@@ -30,10 +30,20 @@ async function getTechnologies(): Promise<TechnologyItem[]> {
   }
 }
 
+async function getCompanySettings(): Promise<CompanySettings> {
+  try {
+    const setting = await prisma.siteSetting.findUnique({ where: { key: "company" } });
+    return (setting?.value as CompanySettings) ?? {};
+  } catch {
+    return {};
+  }
+}
+
 export default async function HomePage() {
-  const [notices, technologies] = await Promise.all([
+  const [notices, technologies, company] = await Promise.all([
     getNotices(),
     getTechnologies(),
+    getCompanySettings(),
   ]);
 
   return (
@@ -42,7 +52,7 @@ export default async function HomePage() {
       <TechnologySection technologies={technologies} />
       <NoticeSection notices={notices} />
       <AboutSection />
-      <ContactSection />
+      <ContactSection company={company} />
     </>
   );
 }

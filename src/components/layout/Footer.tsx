@@ -7,7 +7,21 @@ const quickLinks = [
   { name: "이용약관", href: "/terms" },
 ];
 
-const company = {
+interface FooterProps {
+  company?: {
+    name?: string;
+    nameEn?: string;
+    address?: string;
+    phone?: string;
+    email?: string;
+  };
+  social?: {
+    github?: string;
+    linkedin?: string;
+  };
+}
+
+const defaults = {
   name: "주식회사 코드기어",
   nameEn: "Code Gear Inc.",
   address: "충청남도 천안시 서북구 불당동",
@@ -15,7 +29,9 @@ const company = {
   email: "contact@codegear.co.kr",
 };
 
-export function Footer() {
+export function Footer({ company = {}, social = {} }: FooterProps) {
+  const c = { ...defaults, ...company };
+
   return (
     <footer className="border-t border-border bg-[#0f172a] text-slate-300 dark:bg-[#020617]">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -35,24 +51,28 @@ export function Footer() {
               하이테크 스타트업
             </p>
             <div className="flex items-center gap-3 pt-1">
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
-                aria-label="GitHub"
-              >
-                <Github className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
+              {social.github ? (
+                <a
+                  href={social.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
+                  aria-label="GitHub"
+                >
+                  <Github className="h-5 w-5" />
+                </a>
+              ) : null}
+              {social.linkedin ? (
+                <a
+                  href={social.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              ) : null}
             </div>
           </div>
 
@@ -83,19 +103,19 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5 text-sm text-slate-400">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
-                <span>{company.address}</span>
+                <span>{c.address}</span>
               </li>
               <li className="flex items-center gap-2.5 text-sm text-slate-400">
                 <Phone className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>{company.phone}</span>
+                <span>{c.phone}</span>
               </li>
               <li className="flex items-center gap-2.5 text-sm text-slate-400">
                 <Mail className="h-4 w-4 shrink-0 text-slate-500" />
                 <a
-                  href={`mailto:${company.email}`}
+                  href={`mailto:${c.email}`}
                   className="cursor-pointer transition-colors duration-200 hover:text-white"
                 >
-                  {company.email}
+                  {c.email}
                 </a>
               </li>
             </ul>
@@ -106,8 +126,8 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="flex flex-col items-center justify-between gap-2 text-xs text-slate-500 sm:flex-row">
-          <p>&copy; 2026 {company.name}. All rights reserved.</p>
-          <p>{company.nameEn}</p>
+          <p>&copy; 2026 {c.name}. All rights reserved.</p>
+          <p>{c.nameEn}</p>
         </div>
       </div>
     </footer>
