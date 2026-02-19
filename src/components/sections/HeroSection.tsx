@@ -8,7 +8,7 @@ import { GlassButton } from "@/components/ui/GlassButton";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050a14]">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f8fafc] dark:bg-[#050a14]">
       {/* Canvas polygon animation */}
       <PolygonBackground />
 
@@ -30,9 +30,9 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium">
+          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-medium">
             <span
-              className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"
+              className="w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 animate-pulse"
               aria-hidden="true"
             />
             하이테크 스타트업
@@ -93,7 +93,7 @@ export function HeroSection() {
             (tech) => (
               <span
                 key={tech}
-                className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-muted-foreground text-sm"
+                className="px-4 py-1.5 rounded-full bg-slate-900/5 dark:bg-white/5 border border-slate-900/10 dark:border-white/10 text-muted-foreground text-sm"
               >
                 {tech}
               </span>

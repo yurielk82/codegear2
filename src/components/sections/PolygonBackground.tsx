@@ -11,6 +11,20 @@ interface Point {
 
 export function PolygonBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isDarkRef = useRef(true);
+
+  useEffect(() => {
+    const check = () => {
+      isDarkRef.current = document.documentElement.classList.contains("dark");
+    };
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -57,7 +71,9 @@ export function PolygonBackground() {
           if (dist < MAX_DISTANCE) {
             const opacity = (1 - dist / MAX_DISTANCE) * 0.35;
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+            ctx.strokeStyle = isDarkRef.current
+              ? `rgba(59, 130, 246, ${opacity})`
+              : `rgba(59, 130, 246, ${opacity * 0.6})`;
             ctx.lineWidth = 0.8;
             ctx.moveTo(points[i].x, points[i].y);
             ctx.lineTo(points[j].x, points[j].y);
@@ -69,7 +85,9 @@ export function PolygonBackground() {
       for (const p of points) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(59, 130, 246, 0.5)";
+        ctx.fillStyle = isDarkRef.current
+          ? "rgba(59, 130, 246, 0.5)"
+          : "rgba(59, 130, 246, 0.35)";
         ctx.fill();
       }
 

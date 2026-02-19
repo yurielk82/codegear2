@@ -173,6 +173,13 @@
 
 /* ── v1 Utility Classes ── */
 .gradient-text {
+  background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
   background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
