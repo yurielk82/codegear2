@@ -12,6 +12,7 @@ interface FooterProps {
     name?: string;
     nameEn?: string;
     address?: string;
+    addressDetail?: string;
     phone?: string;
     email?: string;
   };
@@ -24,9 +25,6 @@ interface FooterProps {
 const defaults = {
   name: "주식회사 코드기어",
   nameEn: "Code Gear Inc.",
-  address: "충청남도 천안시 서북구 불당동",
-  phone: "041-XXX-XXXX",
-  email: "contact@codegear.co.kr",
 };
 
 export function Footer({ company = {}, social = {} }: FooterProps) {
@@ -101,23 +99,37 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
               연락처
             </h3>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2.5 text-sm text-slate-400">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
-                <span>{c.address}</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-sm text-slate-400">
-                <Phone className="h-4 w-4 shrink-0 text-slate-500" />
-                <span>{c.phone}</span>
-              </li>
-              <li className="flex items-center gap-2.5 text-sm text-slate-400">
-                <Mail className="h-4 w-4 shrink-0 text-slate-500" />
-                <a
-                  href={`mailto:${c.email}`}
-                  className="cursor-pointer transition-colors duration-200 hover:text-white"
-                >
-                  {c.email}
-                </a>
-              </li>
+              {c.address && (
+                <li className="flex items-start gap-2.5 text-sm text-slate-400">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                  <span>
+                    {c.address}
+                    {company.addressDetail && (
+                      <>
+                        <br />
+                        {company.addressDetail}
+                      </>
+                    )}
+                  </span>
+                </li>
+              )}
+              {c.phone && (
+                <li className="flex items-center gap-2.5 text-sm text-slate-400">
+                  <Phone className="h-4 w-4 shrink-0 text-slate-500" />
+                  <span>{c.phone}</span>
+                </li>
+              )}
+              {c.email && (
+                <li className="flex items-center gap-2.5 text-sm text-slate-400">
+                  <Mail className="h-4 w-4 shrink-0 text-slate-500" />
+                  <a
+                    href={`mailto:${c.email}`}
+                    className="cursor-pointer transition-colors duration-200 hover:text-white"
+                  >
+                    {c.email}
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

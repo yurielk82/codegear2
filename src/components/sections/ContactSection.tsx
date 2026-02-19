@@ -39,28 +39,30 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
   const prefersReduced = useReducedMotion();
   const variant = prefersReduced ? fadeOnly : fadeSlideUp;
 
-  const address = company.address ?? "충청남도 천안시 서북구 불당동";
+  const address = company.address;
   const addressDetail = company.addressDetail;
   const fullAddress = addressDetail ? `${address} ${addressDetail}` : address;
-  const mapQuery = encodeURIComponent(fullAddress);
+  const mapQuery = fullAddress ? encodeURIComponent(fullAddress) : "";
 
   const contactItems = [
-    {
-      icon: MapPin,
-      label: "주소",
-      value: addressDetail ? (
-        <>
-          {address}
-          <br />
-          <span className="text-sm text-muted-foreground">{addressDetail}</span>
-        </>
-      ) : (
-        address
-      ),
-    },
-    { icon: Phone, label: "전화", value: company.phone ?? "041-XXX-XXXX" },
-    { icon: Mail, label: "이메일", value: company.email ?? "contact@codegear.co.kr" },
-  ];
+    address
+      ? {
+          icon: MapPin,
+          label: "주소",
+          value: addressDetail ? (
+            <>
+              {address}
+              <br />
+              <span className="text-sm text-muted-foreground">{addressDetail}</span>
+            </>
+          ) : (
+            address
+          ),
+        }
+      : null,
+    company.phone ? { icon: Phone, label: "전화", value: company.phone } : null,
+    company.email ? { icon: Mail, label: "이메일", value: company.email } : null,
+  ].filter(Boolean) as { icon: typeof MapPin; label: string; value: React.ReactNode }[];
 
   return (
     <section id="contact" className="py-20 md:py-28 bg-muted/30">
@@ -128,19 +130,21 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
           </motion.div>
 
           {/* Right: Google Maps embed */}
-          <motion.div
-            variants={variant}
-            className="overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-white/10"
-          >
-            <iframe
-              title="회사 위치"
-              src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
-              className="h-full min-h-[280px] w-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-          </motion.div>
+          {mapQuery && (
+            <motion.div
+              variants={variant}
+              className="overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-white/10"
+            >
+              <iframe
+                title="회사 위치"
+                src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+                className="h-full min-h-[280px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
