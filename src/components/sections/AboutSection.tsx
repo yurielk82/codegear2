@@ -52,7 +52,7 @@ function AnimatedNumber({
     return () => clearInterval(timer);
   }, [inView, target, reduced]);
 
-  return <>{current.toLocaleString()}</>;
+  return <>{current}</>;
 }
 
 /* ── Framer Motion variants ── */
