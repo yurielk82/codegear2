@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -9,12 +10,32 @@ import type { NoticeFormData } from "@/components/admin/NoticeForm";
 
 export default function AdminNoticeNewPage() {
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (data: NoticeFormData) => {
-    // TODO: Prisma insert
-    console.log("Create notice:", data);
-    window.alert("공고가 등록되었습니다.");
-    router.push("/admin/notices");
+  const handleSubmit = async (data: NoticeFormData) => {
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/notices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: data.category,
+          title: data.title,
+          content: data.content,
+          date: data.date,
+          isPublished: data.is_published,
+        }),
+      });
+      if (!res.ok) {
+        window.alert("등록에 실패했습니다.");
+        return;
+      }
+      router.push("/admin/notices");
+    } catch {
+      window.alert("네트워크 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -37,7 +58,9 @@ export default function AdminNoticeNewPage() {
         </p>
       </div>
 
-      <NoticeForm onSubmit={handleSubmit} submitLabel="등록" />
+      <fieldset disabled={submitting}>
+        <NoticeForm onSubmit={handleSubmit} submitLabel={submitting ? "등록 중..." : "등록"} />
+      </fieldset>
     </div>
   );
 }

@@ -1,22 +1,12 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { NoticeForm } from "@/components/admin/NoticeForm";
 import type { NoticeFormData } from "@/components/admin/NoticeForm";
-
-/* ── Hardcoded data (same source as notice list) ── */
-const noticesMap: Record<string, NoticeFormData & { id: string }> = {
-  "1": { id: "1", category: "채용", title: "[정규직] NPU 설계 엔지니어 채용 공고", content: "NPU 설계 경력자를 모집합니다.", date: "2026-01-28", is_published: true },
-  "2": { id: "2", category: "채용", title: "[정규직] 임베디드 소프트웨어 개발자 채용", content: "임베디드 SW 개발 경력자를 모집합니다.", date: "2026-01-25", is_published: true },
-  "3": { id: "3", category: "공지", title: "2026년 상반기 인턴십 프로그램 안내", content: "인턴십 프로그램에 대한 안내입니다.", date: "2026-01-20", is_published: true },
-  "4": { id: "4", category: "뉴스", title: "Code Gear, 법인 설립 완료", content: "주식회사 코드기어 법인 설립을 완료했습니다.", date: "2026-01-15", is_published: true },
-  "5": { id: "5", category: "공지", title: "설 연휴 휴무 안내", content: "설 연휴 기간 휴무 안내입니다.", date: "2026-01-10", is_published: true },
-  "6": { id: "6", category: "채용", title: "[계약직] FPGA 검증 엔지니어 채용", content: "FPGA 검증 엔지니어를 모집합니다.", date: "2026-01-08", is_published: false },
-};
 
 export default function AdminNoticeEditPage({
   params,
@@ -25,9 +15,66 @@ export default function AdminNoticeEditPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
-  const notice = noticesMap[id];
+  const [notice, setNotice] = useState<(NoticeFormData & { id: string }) | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  if (!notice) {
+  useEffect(() => {
+    fetch(`/api/notices/${id}`)
+      .then((r) => {
+        if (!r.ok) throw new Error("Not found");
+        return r.json();
+      })
+      .then((data) => {
+        setNotice({
+          id: data.id,
+          category: data.category,
+          title: data.title,
+          content: data.content,
+          date: data.date,
+          is_published: data.isPublished,
+        });
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const handleSubmit = async (data: NoticeFormData) => {
+    setSubmitting(true);
+    try {
+      const res = await fetch(`/api/notices/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          category: data.category,
+          title: data.title,
+          content: data.content,
+          date: data.date,
+          isPublished: data.is_published,
+        }),
+      });
+      if (!res.ok) {
+        window.alert("수정에 실패했습니다.");
+        return;
+      }
+      router.push("/admin/notices");
+    } catch {
+      window.alert("네트워크 오류가 발생했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (notFound || !notice) {
     return (
       <div className="space-y-4">
         <h1 className="text-2xl font-bold tracking-tight">
@@ -39,13 +86,6 @@ export default function AdminNoticeEditPage({
       </div>
     );
   }
-
-  const handleSubmit = (data: NoticeFormData) => {
-    // TODO: Prisma update
-    console.log("Update notice:", id, data);
-    window.alert("공고가 수정되었습니다.");
-    router.push("/admin/notices");
-  };
 
   return (
     <div className="space-y-6">
@@ -67,17 +107,19 @@ export default function AdminNoticeEditPage({
         </p>
       </div>
 
-      <NoticeForm
-        defaultValues={{
-          category: notice.category,
-          title: notice.title,
-          content: notice.content,
-          date: notice.date,
-          is_published: notice.is_published,
-        }}
-        onSubmit={handleSubmit}
-        submitLabel="수정"
-      />
+      <fieldset disabled={submitting}>
+        <NoticeForm
+          defaultValues={{
+            category: notice.category,
+            title: notice.title,
+            content: notice.content,
+            date: notice.date,
+            is_published: notice.is_published,
+          }}
+          onSubmit={handleSubmit}
+          submitLabel={submitting ? "수정 중..." : "수정"}
+        />
+      </fieldset>
     </div>
   );
 }

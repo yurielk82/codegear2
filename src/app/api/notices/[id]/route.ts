@@ -2,6 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
+// GET /api/notices/[id] — single notice (no auth required)
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const notice = await prisma.notice.findUnique({ where: { id } });
+    if (!notice) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json({
+      ...notice,
+      date: notice.date.toISOString().split("T")[0],
+    });
+  } catch {
+    return NextResponse.json({ error: "DB error" }, { status: 503 });
+  }
+}
+
 // PATCH /api/notices/[id] — partial update (e.g. toggle isPublished)
 export async function PATCH(
   req: NextRequest,

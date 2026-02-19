@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   FileText,
@@ -8,6 +9,7 @@ import {
   CalendarDays,
   Plus,
   Settings,
+  Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,15 +23,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-/* ── Hardcoded data ── */
-const notices = [
-  { id: "1", category: "채용" as const, title: "[정규직] NPU 설계 엔지니어 채용 공고", date: "2026-01-28", views: 234, is_published: true },
-  { id: "2", category: "채용" as const, title: "[정규직] 임베디드 소프트웨어 개발자 채용", date: "2026-01-25", views: 189, is_published: true },
-  { id: "3", category: "공지" as const, title: "2026년 상반기 인턴십 프로그램 안내", date: "2026-01-20", views: 456, is_published: true },
-  { id: "4", category: "뉴스" as const, title: "Code Gear, 법인 설립 완료", date: "2026-01-15", views: 789, is_published: true },
-  { id: "5", category: "공지" as const, title: "설 연휴 휴무 안내", date: "2026-01-10", views: 123, is_published: true },
-  { id: "6", category: "채용" as const, title: "[계약직] FPGA 검증 엔지니어 채용", date: "2026-01-08", views: 167, is_published: false },
-];
+interface Notice {
+  id: string;
+  category: string;
+  title: string;
+  date: string;
+  views: number;
+  isPublished: boolean;
+}
 
 const categoryStyle: Record<string, string> = {
   채용: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300",
@@ -37,39 +38,63 @@ const categoryStyle: Record<string, string> = {
   뉴스: "bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300",
 };
 
-const stats = [
-  {
-    label: "총 공고",
-    value: notices.length,
-    icon: FileText,
-    color: "text-muted-foreground",
-    bg: "bg-muted",
-  },
-  {
-    label: "발행된 공고",
-    value: notices.filter((n) => n.is_published).length,
-    icon: CheckCircle,
-    color: "text-primary",
-    bg: "bg-primary/10",
-  },
-  {
-    label: "총 조회수",
-    value: notices.reduce((sum, n) => sum + n.views, 0).toLocaleString(),
-    icon: Eye,
-    color: "text-muted-foreground",
-    bg: "bg-muted",
-  },
-  {
-    label: "이번 달 공고",
-    value: 2,
-    icon: CalendarDays,
-    color: "text-muted-foreground",
-    bg: "bg-muted",
-  },
-];
-
 export default function AdminDashboardPage() {
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/notices?all=true")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setNotices(data);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const now = new Date();
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+  const stats = [
+    {
+      label: "총 공고",
+      value: notices.length,
+      icon: FileText,
+      color: "text-muted-foreground",
+      bg: "bg-muted",
+    },
+    {
+      label: "발행된 공고",
+      value: notices.filter((n) => n.isPublished).length,
+      icon: CheckCircle,
+      color: "text-primary",
+      bg: "bg-primary/10",
+    },
+    {
+      label: "총 조회수",
+      value: notices.reduce((sum, n) => sum + n.views, 0).toLocaleString(),
+      icon: Eye,
+      color: "text-muted-foreground",
+      bg: "bg-muted",
+    },
+    {
+      label: "이번 달 공고",
+      value: notices.filter((n) => n.date.startsWith(currentMonth)).length,
+      icon: CalendarDays,
+      color: "text-muted-foreground",
+      bg: "bg-muted",
+    },
+  ];
+
   const recentNotices = notices.slice(0, 5);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -140,14 +165,21 @@ export default function AdminDashboardPage() {
                   </TableCell>
                   <TableCell className="pr-6 text-right">
                     <Badge
-                      variant={notice.is_published ? "default" : "secondary"}
+                      variant={notice.isPublished ? "default" : "secondary"}
                       className="text-xs"
                     >
-                      {notice.is_published ? "발행" : "미발행"}
+                      {notice.isPublished ? "발행" : "미발행"}
                     </Badge>
                   </TableCell>
                 </TableRow>
               ))}
+              {recentNotices.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={4} className="py-8 text-center text-muted-foreground">
+                    등록된 공고가 없습니다.
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </Card>
