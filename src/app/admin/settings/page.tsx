@@ -28,6 +28,7 @@ const defaultSocial = {
 export default function AdminSettingsPage() {
   const [company, setCompany] = useState(defaultCompany);
   const [social, setSocial] = useState(defaultSocial);
+  const [loading, setLoading] = useState(true);
   const [companySaving, setCompanySaving] = useState(false);
   const [socialSaving, setSocialSaving] = useState(false);
   const [companyMsg, setCompanyMsg] = useState("");
@@ -35,15 +36,16 @@ export default function AdminSettingsPage() {
 
   /* ── Load from DB on mount ── */
   useEffect(() => {
-    fetch("/api/settings/company")
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (data) setCompany(data); })
-      .catch(() => {});
-
-    fetch("/api/settings/social")
-      .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (data) setSocial(data); })
-      .catch(() => {});
+    Promise.all([
+      fetch("/api/settings/company").then((r) => r.ok ? r.json() : null),
+      fetch("/api/settings/social").then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([companyData, socialData]) => {
+        if (companyData) setCompany({ ...defaultCompany, ...companyData });
+        if (socialData) setSocial({ ...defaultSocial, ...socialData });
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   const handleCompanySave = async () => {
@@ -79,6 +81,14 @@ export default function AdminSettingsPage() {
       setSocialSaving(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">

@@ -43,7 +43,7 @@ export function NoticeListClient({ notices }: { notices: NoticeRow[] }) {
 
   return (
     <section className="py-20 md:py-28 bg-muted/30">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Back link */}
         <Button variant="ghost" size="sm" asChild className="mb-8 -ml-2 text-muted-foreground hover:text-foreground">
           <Link href="/">

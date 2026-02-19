@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TechnologySection, type TechnologyItem } from "@/components/sections/TechnologySection";
 import { NoticeSection, type NoticeItem } from "@/components/sections/NoticeSection";

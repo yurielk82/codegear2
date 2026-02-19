@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { MapPin, Phone, Mail, Map } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 export interface CompanySettings {
   name?: string;
@@ -39,8 +39,25 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
   const prefersReduced = useReducedMotion();
   const variant = prefersReduced ? fadeOnly : fadeSlideUp;
 
+  const address = company.address ?? "충청남도 천안시 서북구 불당동";
+  const addressDetail = company.addressDetail;
+  const fullAddress = addressDetail ? `${address} ${addressDetail}` : address;
+  const mapQuery = encodeURIComponent(fullAddress);
+
   const contactItems = [
-    { icon: MapPin, label: "주소", value: company.address ?? "충청남도 천안시 서북구 불당동" },
+    {
+      icon: MapPin,
+      label: "주소",
+      value: addressDetail ? (
+        <>
+          {address}
+          <br />
+          <span className="text-sm text-muted-foreground">{addressDetail}</span>
+        </>
+      ) : (
+        address
+      ),
+    },
     { icon: Phone, label: "전화", value: company.phone ?? "041-XXX-XXXX" },
     { icon: Mail, label: "이메일", value: company.email ?? "contact@codegear.co.kr" },
   ];
@@ -110,15 +127,19 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
             </div>
           </motion.div>
 
-          {/* Right: Map placeholder */}
+          {/* Right: Google Maps embed */}
           <motion.div
             variants={variant}
-            className="flex min-h-[280px] items-center justify-center rounded-xl border border-slate-200 bg-slate-100 shadow-sm dark:border-white/10 dark:bg-[#111827]"
+            className="overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-white/10"
           >
-            <div className="flex flex-col items-center gap-3 text-muted-foreground">
-              <Map className="h-10 w-10" strokeWidth={1.4} />
-              <span className="text-sm font-medium">지도</span>
-            </div>
+            <iframe
+              title="회사 위치"
+              src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+              className="h-full min-h-[280px] w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
           </motion.div>
         </motion.div>
       </div>
