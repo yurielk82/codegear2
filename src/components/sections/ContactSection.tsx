@@ -29,6 +29,16 @@ const fadeSlideUp: Variants = {
   },
 };
 
+const blurReveal: Variants = {
+  hidden: { opacity: 0, filter: "blur(8px)", y: 16 },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 const fadeOnly: Variants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.3 } },
@@ -38,6 +48,7 @@ const fadeOnly: Variants = {
 export function ContactSection({ company = {} }: { company?: CompanySettings }) {
   const prefersReduced = useReducedMotion();
   const variant = prefersReduced ? fadeOnly : fadeSlideUp;
+  const contentVariant = prefersReduced ? fadeOnly : blurReveal;
 
   const address = company.address;
   const addressDetail = company.addressDetail;
@@ -97,7 +108,7 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
         >
           {/* Left: Contact details card */}
           <motion.div
-            variants={variant}
+            variants={contentVariant}
             className="flex flex-col gap-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-white/10 dark:bg-[#111827]"
           >
             <h3 className="text-lg font-bold text-foreground">연락처 정보</h3>
@@ -124,7 +135,7 @@ export function ContactSection({ company = {} }: { company?: CompanySettings }) 
           {/* Right: Google Maps embed */}
           {mapQuery && (
             <motion.div
-              variants={variant}
+              variants={contentVariant}
               className="overflow-hidden rounded-xl border border-slate-200 shadow-sm dark:border-white/10"
             >
               <iframe

@@ -1,14 +1,23 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { PolygonBackground } from "@/components/sections/PolygonBackground";
 import { GlassButton } from "@/components/ui/GlassButton";
 
 export function HeroSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f8fafc] dark:bg-[#050a14]">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#f8fafc] dark:bg-[#050a14]">
       {/* Canvas polygon animation */}
       <PolygonBackground />
 
@@ -23,7 +32,10 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <motion.div
+        className="relative z-10 max-w-6xl mx-auto px-6 text-center"
+        style={{ y: contentY, opacity: contentOpacity }}
+      >
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -100,7 +112,7 @@ export function HeroSection() {
             )
           )}
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
