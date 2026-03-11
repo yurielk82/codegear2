@@ -44,12 +44,12 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="relative h-screen flex items-center overflow-hidden bg-background"
     >
-      {/* 풀스크린 뉴럴넷 Canvas */}
+      {/* 풀스크린 칩 다이 + 뉴럴넷 Canvas */}
       <HeroCanvas />
 
-      {/* 반투명 그리드 오버레이 (회로 기판) */}
+      {/* 반투명 그리드 오버레이 */}
       <div
         aria-hidden="true"
         className="hero-grid-overlay pointer-events-none absolute inset-0 z-[1]"
@@ -69,12 +69,12 @@ export function HeroSection() {
         style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)", filter: "blur(100px)" }}
       />
 
-      {/* 중앙 radial glow */}
+      {/* 중앙 radial glow — 칩 위치 쪽으로 편향 */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-[1]"
         style={{
-          background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(124,58,237,0.1) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 50% at 58% 48%, rgba(124,58,237,0.1) 0%, transparent 70%)",
         }}
       />
 
@@ -85,90 +85,93 @@ export function HeroSection() {
         style={{ background: "linear-gradient(to top, var(--background) 0%, transparent 100%)" }}
       />
 
-      {/* 텍스트 오버레이 */}
+      {/* ── 텍스트 오버레이 (좌측 정렬) ── */}
       <motion.div
-        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
+        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-20"
         style={{ y: contentY, opacity: contentOpacity }}
         initial="hidden"
         animate="visible"
         variants={stagger}
       >
-        {/* 배지 */}
-        <motion.div variants={fadeUp}>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
-            하이테크 스타트업
-          </span>
-        </motion.div>
+        {/* 모바일: 중앙, 데스크톱: 좌측 40% */}
+        <div className="md:max-w-[45%] text-center md:text-left">
+          {/* 배지 */}
+          <motion.div variants={fadeUp}>
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium backdrop-blur-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
+              하이테크 스타트업
+            </span>
+          </motion.div>
 
-        {/* 메인 타이틀 — 축소된 크기 */}
-        <motion.h1
-          className="hero-title mt-6 mb-4 tracking-tight leading-none"
-          variants={fadeUp}
-        >
-          <span className="text-foreground">Connecting</span>
-          <br />
-          <span className="gradient-text-animated">Intelligence</span>
-          <br />
-          <span className="text-foreground">to Hardware</span>
-        </motion.h1>
-
-        {/* 서브 카피 */}
-        <motion.p
-          className="text-base text-muted-foreground/70 mb-8 max-w-lg mx-auto"
-          variants={fadeUp}
-        >
-          지능형 하드웨어의 미래를 설계합니다
-        </motion.p>
-
-        {/* CTA 버튼 — 약간 작게 */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-3"
-          variants={fadeUp}
-        >
-          <Button
-            className="hero-shimmer bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 px-6 py-5 text-sm cursor-pointer"
-            onClick={() => {
-              document.getElementById("technology")?.scrollIntoView({ behavior: "smooth" });
-            }}
+          {/* 메인 타이틀 */}
+          <motion.h1
+            className="hero-title mt-6 mb-4 tracking-tight leading-none"
+            variants={fadeUp}
           >
-            기술 알아보기
-          </Button>
-          <Button
-            variant="outline"
-            className="glow-border px-6 py-5 text-sm cursor-pointer"
-            onClick={() => {
-              document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            문의하기
-          </Button>
-        </motion.div>
+            <span className="text-foreground">Connecting</span>
+            <br />
+            <span className="gradient-text-animated">Intelligence</span>
+            <br />
+            <span className="text-foreground">to Hardware</span>
+          </motion.h1>
 
-        {/* 기술 배지 — 글래스 플로팅 */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-2.5 mt-12"
-          variants={fadeUp}
-        >
-          {TECH_BADGES.map((tech, i) => (
-            <motion.span
-              key={tech}
-              className="hero-badge px-3.5 py-1 rounded-full text-xs font-medium text-muted-foreground backdrop-blur-md bg-foreground/5 border border-foreground/10 cursor-default"
-              animate={{ y: [0, -4, 0] }}
-              transition={{
-                duration: 3 + i * 0.4,
-                repeat: Infinity,
-                ease: "easeInOut",
+          {/* 서브 카피 */}
+          <motion.p
+            className="text-base text-muted-foreground/70 mb-8 max-w-lg md:mx-0 mx-auto"
+            variants={fadeUp}
+          >
+            지능형 하드웨어의 미래를 설계합니다
+          </motion.p>
+
+          {/* CTA 버튼 */}
+          <motion.div
+            className="flex flex-col sm:flex-row items-center md:items-start justify-center md:justify-start gap-3"
+            variants={fadeUp}
+          >
+            <Button
+              className="hero-shimmer bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 px-6 py-5 text-sm cursor-pointer"
+              onClick={() => {
+                document.getElementById("technology")?.scrollIntoView({ behavior: "smooth" });
               }}
-              whileHover={{ scale: 1.05 }}
             >
-              {tech}
-            </motion.span>
-          ))}
-        </motion.div>
+              기술 알아보기
+            </Button>
+            <Button
+              variant="outline"
+              className="glow-border px-6 py-5 text-sm cursor-pointer"
+              onClick={() => {
+                document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              문의하기
+            </Button>
+          </motion.div>
+
+          {/* 기술 배지 */}
+          <motion.div
+            className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 mt-12"
+            variants={fadeUp}
+          >
+            {TECH_BADGES.map((tech, i) => (
+              <motion.span
+                key={tech}
+                className="hero-badge px-3.5 py-1 rounded-full text-xs font-medium text-muted-foreground backdrop-blur-md bg-foreground/5 border border-foreground/10 cursor-default"
+                animate={{ y: [0, -4, 0] }}
+                transition={{
+                  duration: 3 + i * 0.4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                whileHover={{ scale: 1.05 }}
+              >
+                {tech}
+              </motion.span>
+            ))}
+          </motion.div>
+        </div>
       </motion.div>
 
-      {/* 스크롤 인디케이터 — 마우스 SVG */}
+      {/* 스크롤 인디케이터 */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
