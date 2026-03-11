@@ -44,48 +44,30 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-
-  /* Tech Corporate Design Tokens */
-  --color-navy: var(--tc-navy);
-  --color-navy-light: var(--tc-navy-light);
-  --color-navy-dark: var(--tc-navy-dark);
-  --color-slate-50: var(--tc-slate-50);
-  --color-slate-100: var(--tc-slate-100);
-  --color-slate-200: var(--tc-slate-200);
-  --color-slate-300: var(--tc-slate-300);
-  --color-slate-400: var(--tc-slate-400);
-  --color-slate-500: var(--tc-slate-500);
-  --color-slate-600: var(--tc-slate-600);
-  --color-slate-700: var(--tc-slate-700);
-  --color-slate-800: var(--tc-slate-800);
-  --color-slate-900: var(--tc-slate-900);
-  --color-electric: var(--tc-electric);
-  --color-electric-light: var(--tc-electric-light);
-  --color-electric-dark: var(--tc-electric-dark);
 }
 
 :root {
   --radius: 0.625rem;
 
-  /* shadcn/ui base tokens - Tech Corporate Light Mode */
+  /* shadcn/ui base tokens — Light Mode (보라 포인트) */
   --background: #f8fafc;
   --foreground: #0f172a;
   --card: #ffffff;
   --card-foreground: #0f172a;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
-  --primary: #0f172a;
-  --primary-foreground: #f8fafc;
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
   --secondary: #e2e8f0;
   --secondary-foreground: #1e293b;
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
-  --accent: #3b82f6;
+  --accent: #6366f1;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.577 0.245 27.325);
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #3b82f6;
+  --ring: #7c3aed;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -93,73 +75,47 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: #f1f5f9;
   --sidebar-foreground: #0f172a;
-  --sidebar-primary: #0f172a;
-  --sidebar-primary-foreground: #f8fafc;
+  --sidebar-primary: #7c3aed;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e2e8f0;
   --sidebar-accent-foreground: #1e293b;
   --sidebar-border: #e2e8f0;
-  --sidebar-ring: #3b82f6;
-
-  /* Tech Corporate color palette */
-  --tc-navy: #0f172a;
-  --tc-navy-light: #1e293b;
-  --tc-navy-dark: #020617;
-  --tc-slate-50: #f8fafc;
-  --tc-slate-100: #f1f5f9;
-  --tc-slate-200: #e2e8f0;
-  --tc-slate-300: #cbd5e1;
-  --tc-slate-400: #94a3b8;
-  --tc-slate-500: #64748b;
-  --tc-slate-600: #475569;
-  --tc-slate-700: #334155;
-  --tc-slate-800: #1e293b;
-  --tc-slate-900: #0f172a;
-  --tc-electric: #3b82f6;
-  --tc-electric-light: #60a5fa;
-  --tc-electric-dark: #2563eb;
+  --sidebar-ring: #7c3aed;
 }
 
 .dark {
-  /* v1 Dark Mode Colors */
-  --background: #0a0a0f;
-  --foreground: #e5e5e5;
-  --card: #12121a;
-  --card-foreground: #e5e5e5;
-  --popover: #12121a;
-  --popover-foreground: #e5e5e5;
-  --primary: #3b82f6;
+  /* Dark Mode — 보라+파랑 그라디언트 포인트 */
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #0f0f14;
+  --card-foreground: #fafafa;
+  --popover: #0f0f14;
+  --popover-foreground: #fafafa;
+  --primary: #7c3aed;
   --primary-foreground: #ffffff;
   --secondary: #1a1a2e;
-  --secondary-foreground: #e5e5e5;
-  --muted: #1a1a2e;
+  --secondary-foreground: #fafafa;
+  --muted: #18181b;
   --muted-foreground: #a1a1aa;
-  --accent: #3b82f6;
+  --accent: #6366f1;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.12);
-  --ring: #3b82f6;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #7c3aed;
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: #0d0d14;
-  --sidebar-foreground: #e5e5e5;
-  --sidebar-primary: #3b82f6;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #1a1a2e;
-  --sidebar-accent-foreground: #e5e5e5;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
-  --sidebar-ring: #3b82f6;
-
-  /* Tech Corporate dark mode palette overrides */
-  --tc-navy: #0f172a;
-  --tc-navy-light: #1e293b;
-  --tc-navy-dark: #020617;
-  --tc-electric: #60a5fa;
-  --tc-electric-light: #93bbfd;
-  --tc-electric-dark: #3b82f6;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --sidebar-ring: #7c3aed;
 }
 
 @layer base {
@@ -171,21 +127,22 @@
   }
 }
 
-/* ── v1 Utility Classes ── */
+/* ── Gradient Text ── */
 .gradient-text {
-  background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .dark .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+/* ── Glass Card ── */
 .glass-card {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
@@ -204,9 +161,61 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+/* ── Glow Card (보라 호버 효과) ── */
+.glow-card {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.glow-card:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 24px rgba(124, 58, 237, 0.15), 0 8px 32px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+.dark .glow-card:hover {
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 0 32px rgba(124, 58, 237, 0.2), 0 8px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Glow Border ── */
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.4), rgba(59, 130, 246, 0.4));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-border:hover::before {
+  opacity: 1;
+}
+
 /* ── Dark Mode Scrollbar ── */
 .dark ::-webkit-scrollbar { width: 8px; }
 .dark ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 4px; }
 .dark ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
 .dark ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
-.dark ::selection { background: rgba(59, 130, 246, 0.3); color: #fff; }
+.dark ::selection { background: rgba(124, 58, 237, 0.3); color: #fff; }
+
+/* ── Light mode glass-card override ── */
+:root .glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+:root .glass-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}

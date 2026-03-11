@@ -3,6 +3,9 @@ import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 const quickLinks = [
+  { name: "홈", href: "/" },
+  { name: "기술", href: "/#technology" },
+  { name: "채용", href: "/#careers" },
   { name: "개인정보처리방침", href: "/privacy" },
   { name: "이용약관", href: "/terms" },
 ];
@@ -31,20 +34,20 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
   const c = { ...defaults, ...company };
 
   return (
-    <footer className="border-t border-border bg-[#0f172a] text-slate-300 dark:bg-[#020617]">
+    <footer className="border-t border-border bg-card">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          {/* Column 1: Company Info + Social */}
+          {/* 1열: 회사 정보 + 소셜 */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent shadow-sm">
                 <span className="text-sm font-bold text-white">CG</span>
               </div>
-              <span className="text-lg font-bold tracking-tight text-white">
+              <span className="text-lg font-bold tracking-tight text-foreground">
                 Code Gear
               </span>
             </div>
-            <p className="text-sm leading-relaxed text-slate-400">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               NPU, 로봇 제어, 시스템 반도체 IP 등 차세대 기술을 선도하는
               하이테크 스타트업
             </p>
@@ -54,7 +57,7 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
                   href={social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
+                  className="cursor-pointer text-muted-foreground transition-colors duration-200 hover:text-foreground"
                   aria-label="GitHub"
                 >
                   <Github className="h-5 w-5" />
@@ -65,7 +68,7 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
                   href={social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="cursor-pointer text-slate-400 transition-colors duration-200 hover:text-white"
+                  className="cursor-pointer text-muted-foreground transition-colors duration-200 hover:text-foreground"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="h-5 w-5" />
@@ -74,9 +77,9 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
             </div>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* 2열: 바로가기 */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
               바로가기
             </h3>
             <ul className="space-y-2.5">
@@ -84,7 +87,7 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="cursor-pointer text-sm text-slate-400 transition-colors duration-200 hover:text-white"
+                    className="cursor-pointer text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
                   >
                     {link.name}
                   </Link>
@@ -93,15 +96,15 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
             </ul>
           </div>
 
-          {/* Column 3: Contact Info */}
+          {/* 3열: 연락처 */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
               연락처
             </h3>
             <ul className="space-y-3">
               {c.address && (
-                <li className="flex items-start gap-2.5 text-sm text-slate-400">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
+                <li className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground/60" />
                   <span>
                     {c.address}
                     {company.addressDetail && ` ${company.addressDetail}`}
@@ -109,17 +112,17 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
                 </li>
               )}
               {c.phone && (
-                <li className="flex items-center gap-2.5 text-sm text-slate-400">
-                  <Phone className="h-4 w-4 shrink-0 text-slate-500" />
+                <li className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                  <Phone className="h-4 w-4 shrink-0 text-muted-foreground/60" />
                   <span>{c.phone}</span>
                 </li>
               )}
               {c.email && (
-                <li className="flex items-center gap-2.5 text-sm text-slate-400">
-                  <Mail className="h-4 w-4 shrink-0 text-slate-500" />
+                <li className="flex items-center gap-2.5 text-sm text-muted-foreground">
+                  <Mail className="h-4 w-4 shrink-0 text-muted-foreground/60" />
                   <a
                     href={`mailto:${c.email}`}
-                    className="cursor-pointer transition-colors duration-200 hover:text-white"
+                    className="cursor-pointer transition-colors duration-200 hover:text-foreground"
                   >
                     {c.email}
                   </a>
@@ -129,10 +132,10 @@ export function Footer({ company = {}, social = {} }: FooterProps) {
           </div>
         </div>
 
-        <Separator className="my-8 bg-slate-700/50" />
+        <Separator className="my-8 bg-border" />
 
-        {/* Bottom Bar */}
-        <div className="flex flex-col items-center justify-between gap-2 text-xs text-slate-500 sm:flex-row">
+        {/* 하단 바 */}
+        <div className="flex flex-col items-center justify-between gap-2 text-xs text-muted-foreground sm:flex-row">
           <p>&copy; 2026 {c.name}. All rights reserved.</p>
           <p>{c.nameEn}</p>
         </div>

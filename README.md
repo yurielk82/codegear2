@@ -1,4 +1,4 @@
-# Code Gear v0.8.0
+# Code Gear v1.0.0
 
 > "Connecting Intelligence to Hardware" - 지능형 하드웨어의 미래를 설계합니다
 

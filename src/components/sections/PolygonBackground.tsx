@@ -72,12 +72,24 @@ export function PolygonBackground() {
             const opacity = (1 - dist / MAX_DISTANCE) * 0.35;
             ctx.beginPath();
             ctx.strokeStyle = isDarkRef.current
-              ? `rgba(59, 130, 246, ${opacity})`
-              : `rgba(59, 130, 246, ${opacity * 0.6})`;
+              ? `rgba(124, 58, 237, ${opacity * 0.7})`
+              : `rgba(124, 58, 237, ${opacity * 0.4})`;
             ctx.lineWidth = 0.8;
             ctx.moveTo(points[i].x, points[i].y);
             ctx.lineTo(points[j].x, points[j].y);
             ctx.stroke();
+
+            if (dist < MAX_DISTANCE * 0.6) {
+              const blueOpacity = opacity * 0.5;
+              ctx.beginPath();
+              ctx.strokeStyle = isDarkRef.current
+                ? `rgba(59, 130, 246, ${blueOpacity * 0.6})`
+                : `rgba(59, 130, 246, ${blueOpacity * 0.3})`;
+              ctx.lineWidth = 0.4;
+              ctx.moveTo(points[i].x, points[i].y);
+              ctx.lineTo(points[j].x, points[j].y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -86,8 +98,8 @@ export function PolygonBackground() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
         ctx.fillStyle = isDarkRef.current
-          ? "rgba(59, 130, 246, 0.5)"
-          : "rgba(59, 130, 246, 0.35)";
+          ? "rgba(124, 58, 237, 0.5)"
+          : "rgba(124, 58, 237, 0.3)";
         ctx.fill();
       }
 

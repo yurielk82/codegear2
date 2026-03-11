@@ -78,3 +78,12 @@ model SiteSetting {
   value     Json
   updatedAt DateTime @updatedAt
 }
+
+model ContactInquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

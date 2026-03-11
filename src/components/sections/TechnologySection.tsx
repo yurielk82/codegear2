@@ -1,19 +1,9 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {
-  Cpu,
-  Bot,
-  Microchip,
-  Code,
-  Zap,
-  Grid3X3,
-  Layers,
-  CheckCircle,
-  type LucideIcon,
-} from "lucide-react";
+import { Cpu, Bot, Microchip, type LucideIcon } from "lucide-react";
 
-/* ── Types ── */
+/* ── 타입 ── */
 export interface TechnologyItem {
   id: string;
   title: string;
@@ -23,23 +13,41 @@ export interface TechnologyItem {
   gradient: string;
 }
 
-/* ── Icon map ── */
+/* ── 아이콘 매핑 ── */
 const iconMap: Record<string, LucideIcon> = {
-  Cpu, Bot, Microchip, Code, Zap, Grid3X3, Layers, CheckCircle,
-  cpu: Cpu, bot: Bot, microchip: Microchip, code: Code,
-  zap: Zap, "grid-3x3": Grid3X3, layers: Layers, "check-circle": CheckCircle,
+  Cpu, Bot, Microchip,
+  cpu: Cpu, bot: Bot, microchip: Microchip,
 };
 
-/* ── Hardcoded fallback ── */
+/* ── Fallback 데이터 (3개) ── */
 const fallbackTechnologies: TechnologyItem[] = [
-  { id: "npu", title: "NPU 설계", subtitle: "Neural Processing Unit", description: "고효율 신경망 처리 유닛 설계 및 최적화", icon: "Cpu", gradient: "from-blue-500 to-cyan-500" },
-  { id: "robot-control", title: "로봇 제어 시스템", subtitle: "Robot Control System", description: "정밀 모션 제어 및 실시간 로봇 시스템", icon: "Bot", gradient: "from-purple-500 to-pink-500" },
-  { id: "semiconductor-ip", title: "시스템 반도체 IP", subtitle: "System Semiconductor IP", description: "맞춤형 반도체 IP 코어 설계 및 라이센싱", icon: "Microchip", gradient: "from-orange-500 to-red-500" },
-  { id: "embedded-sw", title: "임베디드 소프트웨어", subtitle: "Embedded Software", description: "저전력 고성능 임베디드 시스템 개발", icon: "Code", gradient: "from-green-500 to-emerald-500" },
-  { id: "ai-accelerator", title: "AI 가속기", subtitle: "AI Accelerator", description: "머신러닝 추론 가속을 위한 전용 하드웨어", icon: "Zap", gradient: "from-yellow-500 to-orange-500" },
-  { id: "fpga-design", title: "FPGA 설계", subtitle: "FPGA Design", description: "프로토타이핑 및 커스텀 로직 구현", icon: "Grid3X3", gradient: "from-indigo-500 to-purple-500" },
-  { id: "soc-integration", title: "SoC 통합", subtitle: "System on Chip", description: "시스템 온 칩 아키텍처 설계 및 통합", icon: "Layers", gradient: "from-teal-500 to-cyan-500" },
-  { id: "verification", title: "설계 검증", subtitle: "Design Verification", description: "하드웨어 설계 검증 및 테스트 자동화", icon: "CheckCircle", gradient: "from-rose-500 to-pink-500" },
+  {
+    id: "npu",
+    title: "NPU 설계",
+    subtitle: "Neural Processing Unit",
+    description:
+      "고효율 신경망 처리 유닛을 자체 설계합니다. 저전력 고성능 AI 추론에 최적화된 아키텍처로, 엣지 디바이스부터 데이터센터까지 폭넓게 적용 가능합니다.",
+    icon: "Cpu",
+    gradient: "from-primary to-accent",
+  },
+  {
+    id: "robot-control",
+    title: "로봇 제어 시스템",
+    subtitle: "Robot Control System",
+    description:
+      "정밀 모션 제어와 실시간 피드백을 지원하는 로봇 제어 플랫폼을 개발합니다. 산업용 로봇부터 서비스 로봇까지, 안정적이고 확장 가능한 제어 솔루션을 제공합니다.",
+    icon: "Bot",
+    gradient: "from-primary to-accent",
+  },
+  {
+    id: "semiconductor-ip",
+    title: "시스템 반도체 IP",
+    subtitle: "System Semiconductor IP",
+    description:
+      "맞춤형 반도체 IP 코어를 설계하고 라이센싱합니다. SoC 통합에 최적화된 검증 완료 IP로, 고객의 반도체 개발 기간을 단축하고 경쟁력을 강화합니다.",
+    icon: "Microchip",
+    gradient: "from-primary to-accent",
+  },
 ];
 
 /* ── Framer Motion variants ── */
@@ -63,20 +71,18 @@ const fadeOnly: Variants = {
   visible: { opacity: 1, transition: { duration: 0.3 } },
 };
 
-/* ── Technology Card ── */
+/* ── 기술 카드 ── */
 function TechCard({
   title,
   subtitle,
   description,
   icon,
-  gradient,
   variant,
 }: {
   title: string;
   subtitle: string;
   description: string;
   icon: string;
-  gradient: string;
   variant: Variants;
 }) {
   const Icon = iconMap[icon] ?? Cpu;
@@ -84,25 +90,25 @@ function TechCard({
   return (
     <motion.article
       variants={variant}
-      className="group relative flex flex-col gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-[border-color,box-shadow] duration-300 hover:border-electric/40 hover:shadow-md hover:shadow-electric/5 dark:border-white/10 dark:bg-[#111827] dark:hover:border-electric/50 dark:hover:shadow-electric/10"
+      className="glow-card group relative flex flex-col gap-5 rounded-xl border border-border bg-card p-8 transition-[border-color,box-shadow,transform] duration-300"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 rounded-t-xl bg-gradient-to-r from-electric to-electric-light transition-transform duration-300 group-hover:scale-x-100"
+        className="pointer-events-none absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 rounded-t-xl bg-gradient-to-r from-primary to-accent transition-transform duration-300 group-hover:scale-x-100"
       />
-      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${gradient} shadow-sm`}>
-        <Icon className="h-5 w-5 text-white" strokeWidth={1.8} aria-hidden="true" />
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent shadow-sm">
+        <Icon className="h-6 w-6 text-white" strokeWidth={1.8} aria-hidden="true" />
       </div>
-      <div className="flex flex-col gap-1.5">
-        <h3 className="text-lg font-bold leading-snug text-foreground">{title}</h3>
+      <div className="flex flex-col gap-2">
+        <h3 className="text-xl font-bold leading-snug text-foreground">{title}</h3>
         <p className="text-sm font-medium text-muted-foreground/70">{subtitle}</p>
-        <p className="mt-1 text-[15px] leading-relaxed text-muted-foreground">{description}</p>
+        <p className="mt-1 text-base leading-relaxed text-muted-foreground">{description}</p>
       </div>
     </motion.article>
   );
 }
 
-/* ── Main Section ── */
+/* ── 메인 섹션 ── */
 export function TechnologySection({ technologies }: { technologies?: TechnologyItem[] }) {
   const prefersReduced = useReducedMotion();
   const variant = prefersReduced ? fadeOnly : fadeSlideUp;
@@ -119,7 +125,7 @@ export function TechnologySection({ technologies }: { technologies?: TechnologyI
           variants={sectionVariants}
           className="mb-14 text-center md:mb-20"
         >
-          <motion.p variants={variant} className="text-sm font-semibold uppercase tracking-widest text-electric">
+          <motion.p variants={variant} className="text-sm font-semibold uppercase tracking-widest text-primary">
             Core Technologies
           </motion.p>
           <motion.h2 variants={variant} className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
@@ -135,7 +141,7 @@ export function TechnologySection({ technologies }: { technologies?: TechnologyI
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
           variants={sectionVariants}
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6"
+          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
           {items.map((tech) => (
             <TechCard
@@ -144,7 +150,6 @@ export function TechnologySection({ technologies }: { technologies?: TechnologyI
               subtitle={tech.subtitle}
               description={tech.description}
               icon={tech.icon}
-              gradient={tech.gradient}
               variant={cardVariant}
             />
           ))}
