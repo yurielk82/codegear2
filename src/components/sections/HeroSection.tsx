@@ -1,10 +1,36 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { PolygonBackground } from "@/components/sections/PolygonBackground";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { HeroCanvas } from "@/components/sections/HeroCanvas";
 import { Button } from "@/components/ui/button";
+
+const TECH_BADGES = ["NPU", "Robot Control", "System Semiconductor", "AI Accelerator", "FPGA"];
+
+const stagger: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
+};
+
+/* ── 마우스 SVG 스크롤 인디케이터 ── */
+function ScrollMouse() {
+  return (
+    <svg width="24" height="38" viewBox="0 0 24 38" fill="none" className="text-muted-foreground">
+      <rect x="1" y="1" width="22" height="36" rx="11" stroke="currentColor" strokeWidth="1.5" />
+      <motion.rect
+        x="10.5" y="8" width="3" height="8" rx="1.5"
+        fill="currentColor"
+        animate={{ y: [8, 16, 8] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      />
+    </svg>
+  );
+}
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -12,79 +38,96 @@ export function HeroSection() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="relative h-screen flex items-center justify-center overflow-hidden bg-background"
     >
-      <PolygonBackground />
+      {/* 풀스크린 뉴럴넷 Canvas */}
+      <HeroCanvas />
 
-      {/* 보라-파랑 방사형 글로우 */}
+      {/* 반투명 그리드 오버레이 (회로 기판) */}
+      <div
+        aria-hidden="true"
+        className="hero-grid-overlay pointer-events-none absolute inset-0 z-[1]"
+      />
+
+      {/* 보라 blur blob — 좌상단 */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-32 -left-32 h-96 w-96 rounded-full z-[1] opacity-15"
+        style={{ background: "radial-gradient(circle, #7c3aed 0%, transparent 70%)", filter: "blur(100px)" }}
+      />
+
+      {/* 파랑 blur blob — 우하단 */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-32 -right-32 h-96 w-96 rounded-full z-[1] opacity-15"
+        style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)", filter: "blur(100px)" }}
+      />
+
+      {/* 중앙 radial glow */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-[1]"
         style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(124,58,237,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(124,58,237,0.1) 0%, transparent 70%)",
         }}
       />
 
+      {/* 하단 그라디언트 페이드 */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-48 z-[2]"
+        style={{ background: "linear-gradient(to top, var(--background) 0%, transparent 100%)" }}
+      />
+
+      {/* 텍스트 오버레이 */}
       <motion.div
-        className="relative z-10 max-w-6xl mx-auto px-6 text-center"
+        className="relative z-10 max-w-5xl mx-auto px-6 text-center"
         style={{ y: contentY, opacity: contentOpacity }}
+        initial="hidden"
+        animate="visible"
+        variants={stagger}
       >
         {/* 배지 */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
-            <span
-              className="w-2 h-2 rounded-full bg-primary animate-pulse"
-              aria-hidden="true"
-            />
+        <motion.div variants={fadeUp}>
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true" />
             하이테크 스타트업
           </span>
         </motion.div>
 
-        {/* 메인 타이틀 */}
+        {/* 메인 타이틀 — 축소된 크기 */}
         <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mt-8 mb-6 tracking-tight leading-none"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          className="hero-title mt-6 mb-4 tracking-tight leading-none"
+          variants={fadeUp}
         >
           <span className="text-foreground">Connecting</span>
           <br />
-          <span className="gradient-text">Intelligence</span>
+          <span className="gradient-text-animated">Intelligence</span>
           <br />
           <span className="text-foreground">to Hardware</span>
         </motion.h1>
 
         {/* 서브 카피 */}
         <motion.p
-          className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-base text-muted-foreground/70 mb-8 max-w-lg mx-auto"
+          variants={fadeUp}
         >
           지능형 하드웨어의 미래를 설계합니다
         </motion.p>
 
-        {/* CTA 버튼 */}
+        {/* CTA 버튼 — 약간 작게 */}
         <motion.div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3"
+          variants={fadeUp}
         >
           <Button
-            size="lg"
-            className="bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 px-8 py-6 text-base cursor-pointer"
+            className="hero-shimmer bg-gradient-to-r from-primary to-accent text-white hover:opacity-90 px-6 py-5 text-sm cursor-pointer"
             onClick={() => {
               document.getElementById("technology")?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -93,8 +136,7 @@ export function HeroSection() {
           </Button>
           <Button
             variant="outline"
-            size="lg"
-            className="px-8 py-6 text-base cursor-pointer"
+            className="glow-border px-6 py-5 text-sm cursor-pointer"
             onClick={() => {
               document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -103,45 +145,45 @@ export function HeroSection() {
           </Button>
         </motion.div>
 
-        {/* 기술 배지 */}
+        {/* 기술 배지 — 글래스 플로팅 */}
         <motion.div
-          className="flex flex-wrap items-center justify-center gap-3 mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.9 }}
+          className="flex flex-wrap items-center justify-center gap-2.5 mt-12"
+          variants={fadeUp}
         >
-          {["NPU", "Robot Control", "System Semiconductor", "AI Accelerator", "FPGA"].map(
-            (tech) => (
-              <span
-                key={tech}
-                className="px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-muted-foreground text-sm"
-              >
-                {tech}
-              </span>
-            ),
-          )}
+          {TECH_BADGES.map((tech, i) => (
+            <motion.span
+              key={tech}
+              className="hero-badge px-3.5 py-1 rounded-full text-xs font-medium text-muted-foreground backdrop-blur-md bg-foreground/5 border border-foreground/10 cursor-default"
+              animate={{ y: [0, -4, 0] }}
+              transition={{
+                duration: 3 + i * 0.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              whileHover={{ scale: 1.05 }}
+            >
+              {tech}
+            </motion.span>
+          ))}
         </motion.div>
       </motion.div>
 
-      {/* 스크롤 인디케이터 */}
+      {/* 스크롤 인디케이터 — 마우스 SVG */}
       <motion.div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
+        transition={{ duration: 1, delay: 1.5 }}
       >
-        <motion.button
+        <button
           aria-label="아래로 스크롤"
-          className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
           onClick={() => {
             document.getElementById("technology")?.scrollIntoView({ behavior: "smooth" });
           }}
         >
-          <span className="text-xs uppercase tracking-wider">Scroll</span>
-          <ChevronDown size={20} aria-hidden="true" />
-        </motion.button>
+          <ScrollMouse />
+        </button>
       </motion.div>
     </section>
   );
